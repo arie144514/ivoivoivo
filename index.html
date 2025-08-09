@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+    <title>الصفحة الرئيسية - المنظمة التطوعية العراقية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #561C24;
+            --secondary-color: #6D2932;
+            --accent-color: #C7B7A3;
+            --light-bg: #E8D8C4;
+            --text-dark: #561C24;
+            --text-light: #E8D8C4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Amiri', serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+            line-height: 1.6;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header - Mobile First */
+        header {
+            background-color: var(--primary-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .header-divider {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            z-index: 999;
+            transition: opacity 0.3s ease;
+        }
+
+        .header-divider.hidden {
+            opacity: 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: 45px;
+            border-radius: 50%;
+            object-fit: contain;
+            border: 2px solid var(--accent-color);
+        }
+
+        .org-name {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .org-name-ar {
+            font-size: 18px;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .org-name-en {
+            font-family: 'Times New Roman', serif;
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 12px 10px;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--primary-color);
+            min-width: 180px;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            padding: 12px 15px;
+            display: block;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-link:hover {
+            background-color: var(--secondary-color);
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            height: 100vh;
+            min-height: -webkit-fill-available;
+            max-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+            padding: 0 20px;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            max-width: 85%;
+            height: auto;
+            max-height: 180px;
+            margin-bottom: 20px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.3s;
+        }
+
+        .hero-subtitle {
+            font-family: 'Times New Roman', serif;
+            font-size: 20px;
+            margin-top: 20px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        /* Sections */
+        .section {
+            padding: 50px 20px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(86, 28, 36, 0.1);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .section-header.animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .section-title-ar {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .section-title-en {
+            font-family: 'Times New Roman', serif;
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin: 15px 0 0 0;
+            font-weight: 700;
+        }
+
+        .articles-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .article-column {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .article-column.animate {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .article-card {
+            text-align: center;
+            width: 100%;
+            touch-action: manipulation;
+        }
+
+        .article-title {
+            font-size: 22px;
+            margin-top: 20px;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .article-subtitle {
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            margin-top: 8px;
+            color: var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .article-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(86, 28, 36, 0.25);
+            transition: all 0.4s ease;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        /* Hover Effects - Converted to active states for mobile */
+        .article-card:active .article-image-wrapper {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(86, 28, 36, 0.35);
+        }
+
+        .article-card:active .article-image {
+            transform: scale(1.03);
+        }
+
+        .article-card:active .article-title,
+        .article-card:active .article-subtitle {
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            text-align: center;
+            padding: 30px 0;
+            font-size: 16px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-color), var(--text-light), var(--accent-color));
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tablet and Desktop Styles */
+        @media (min-width: 768px) {
+            header {
+                height: 70px;
+                padding: 0 25px;
+            }
+
+            .header-divider {
+                top: 70px;
+            }
+
+            .logo-img {
+                height: 50px;
+                width: 50px;
+            }
+
+            .org-name-ar {
+                font-size: 22px;
+            }
+
+            .org-name-en {
+                font-size: 14px;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            nav {
+                display: flex;
+                gap: 15px;
+            }
+
+            .nav-link {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+
+            .hero {
+                margin-top: 70px;
+                min-height: 600px;
+            }
+
+            .hero-img {
+                max-height: 200px;
+            }
+
+            .hero-subtitle {
+                font-size: 24px;
+            }
+
+            .section {
+                padding: 70px 40px;
+            }
+
+            .section-title-ar {
+                font-size: 36px;
+            }
+
+            .section-title-en {
+                font-size: 20px;
+            }
+
+            .articles-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+
+            .article-column {
+                flex: 1 1 calc(50% - 30px);
+                min-width: 250px;
+            }
+
+            .article-image {
+                height: 220px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            header {
+                height: 80px;
+                padding: 0 30px;
+            }
+
+            .header-divider {
+                top: 80px;
+            }
+
+            .logo-img {
+                height: 55px;
+                width: 55px;
+            }
+
+            .org-name-ar {
+                font-size: 24px;
+            }
+
+            .org-name-en {
+                font-size: 16px;
+            }
+
+            .hero {
+                margin-top: 80px;
+            }
+
+            .section {
+                padding: 80px 60px;
+            }
+
+            .section-title-ar {
+                font-size: 40px;
+            }
+
+            .section-title-en {
+                font-size: 22px;
+            }
+
+            .articles-container {
+                gap: 40px;
+            }
+
+            .article-column {
+                flex: 1;
+            }
+
+            .article-image {
+                height: 250px;
+            }
+
+            /* Restore hover effects for desktop */
+            .article-card:hover .article-image-wrapper {
+                transform: translateY(-10px);
+                box-shadow: 0 25px 50px rgba(86, 28, 36, 0.4);
+            }
+
+            .article-card:hover .article-image {
+                transform: scale(1.05);
+            }
+
+            .article-card:hover .article-title,
+            .article-card:hover .article-subtitle {
+                color: var(--secondary-color);
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="main-header">
+        <div class="logo-container">
+            <img src="IVO.png" alt="شعار المنظمة التطوعية العراقية" class="logo-img" />
+            <div class="org-name">
+                <span class="org-name-ar">المنظمة التطوعية العراقية</span>
+                <span class="org-name-en">Iraqi Voluntary Organization</span>
+            </div>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+        <nav id="main-nav">
+            <a href="#" class="nav-link">الرئيسية</a>
+            <a href="#" class="nav-link">من نحن؟</a>
+            <div class="dropdown">
+                <a href="#" class="nav-link dropbtn">الأقسام الفكرية ▼</a>
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-link">الفكر السياسي</a>
+                    <a href="#" class="dropdown-link">الفكر الاقتصادي</a>
+                    <a href="#" class="dropdown-link">الفكر الاجتماعي</a>
+                </div>
+            </div>
+            <a href="#" class="nav-link">رسائل الماجستير</a>
+            <a href="#" class="nav-link">اتصل بنا</a>
+        </nav>
+    </header>
+
+    <div class="header-divider"></div>
+
+    <section class="hero" id="hero-section">
+        <img src="ivo (2).png" alt="المنظمة التطوعية العراقية" class="hero-img" />
+        <h2 class="hero-subtitle">Iraqi Voluntary Organization</h2>
+    </section>
+
+    <!-- Featured Articles Section -->
+    <section class="section featured-article-clean">
+        <div class="section-header">
+            <h3 class="section-title-ar">مقالة رئيسية مميزة</h3>
+            <h4 class="section-title-en">Highlighted Main Article</h4>
+        </div>
+        <div class="articles-container">
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="morenew.avif" alt="صورة 1" class="article-image">
+                    </div>
+                    <h3 class="article-title">عنوان المقال الأول</h3>
+                    <h4 class="article-subtitle">First Article Title</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="latest.avif" alt="صورة 2" class="article-image">
+                    </div>
+                    <h3 class="article-title">عنوان المقال الثاني</h3>
+                    <h4 class="article-subtitle">Second Article Title</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="pic21.avif" alt="صورة 3" class="article-image">
+                    </div>
+                    <h3 class="article-title">عنوان المقال الثالث</h3>
+                    <h4 class="article-subtitle">Third Article Title</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Articles Section -->
+    <section class="section latest-article">
+        <div class="section-header">
+            <h3 class="section-title-ar">أحدث المقالات</h3>
+            <h4 class="section-title-en">Latest Articles</h4>
+        </div>
+        <div class="articles-container">
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="newnew.avif" alt="صورة 4" class="article-image">
+                    </div>
+                    <h3 class="article-title">عنوان المقال الاول</h3>
+                    <h4 class="article-subtitle">First Article Title</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="newbooks.avif" alt="صورة 5" class="article-image">
+                    </div>
+                    <h3 class="article-title">عنوان المقال الثاني</h3>
+                    <h4 class="article-subtitle">Second Article Title</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="books3.avif" alt="صورة 6" class="article-image">
+                    </div>
+                    <h3 class="article-title">عنوان المقال الثالث</h3>
+                    <h4 class="article-subtitle">Third Article Title</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Articles Section -->
+    <section class="section recent-publications">
+        <div class="section-header">
+            <h3 class="section-title-ar">المقالات المميزه</h3>
+            <h4 class="section-title-en">Top Reads</h4>
+        </div>
+        <div class="articles-container">
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="books4.avif" alt="منشور 1" class="article-image">
+                    </div>
+                    <h3 class="article-title">المقال الاول</h3>
+                    <h4 class="article-subtitle">First</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="pic22.avif" alt="منشور 2" class="article-image">
+                    </div>
+                    <h3 class="article-title">المقال الثاني</h3>
+                    <h4 class="article-subtitle">Second</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="pic23.avif" alt="منشور 3" class="article-image">
+                    </div>
+                    <h3 class="article-title">المقال الثالث</h3>
+                    <h4 class="article-subtitle">Third</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Magazine Section -->
+    <section class="section upcoming-events">
+        <div class="section-header">
+            <h3 class="section-title-ar">نبذه عن المجله</h3>
+            <h4 class="section-title-en">About Us</h4>
+        </div>
+        <div class="articles-container">
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="picpic1.avif" alt="فعالية 1" class="article-image">
+                    </div>
+                    <h3 class="article-title">الرؤيه والرسالة</h3>
+                    <h4 class="article-subtitle">Vision And Message</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="picpic2.avif" alt="فعالية 2" class="article-image">
+                    </div>
+                    <h3 class="article-title">القصه والاهداف</h3>
+                    <h4 class="article-subtitle">Story And Goals</h4>
+                </div>
+            </div>
+            <div class="article-column">
+                <div class="article-card">
+                    <div class="article-image-wrapper">
+                        <img src="picpic3.avif" alt="فعالية 3" class="article-image">
+                    </div>
+                    <h3 class="article-title">فريق العمل الاساسي</h3>
+                    <h4 class="article-subtitle">Main Team Members</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        المنظمة التطوعية العراقية - Iraqi Voluntary Organization
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.style.display = mainNav.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mainNav.contains(e.target) && e.target !== mobileMenuBtn) {
+                mainNav.style.display = 'none';
+            }
+        });
+
+        // Handle window resize
+        function handleResize() {
+            if (window.innerWidth >= 768) {
+                mainNav.style.display = 'flex';
+            } else {
+                mainNav.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        // Improved scroll performance
+        let lastScrollY = 0;
+        let ticking = false;
+        const header = document.getElementById('main-header');
+        const headerDivider = document.querySelector('.header-divider');
+
+        function updateHeader() {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY <= 50) {
+                header.classList.remove('hidden');
+                headerDivider.classList.remove('hidden');
+            } else if (currentScrollY > lastScrollY) {
+                header.classList.add('hidden');
+                headerDivider.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+                headerDivider.classList.remove('hidden');
+            }
+
+            lastScrollY = currentScrollY;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateHeader);
+                ticking = true;
+            }
+        });
+
+        // Intersection Observer for scroll animations
+        const animateElements = () => {
+            const sections = document.querySelectorAll('.section');
+            const options = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionHeader = entry.target.querySelector('.section-header');
+                        const articles = entry.target.querySelectorAll('.article-column');
+
+                        if (sectionHeader) sectionHeader.classList.add('animate');
+
+                        articles.forEach((article, index) => {
+                            setTimeout(() => {
+                                article.classList.add('animate');
+                            }, index * 150);
+                        });
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        };
+
+        // Initialize on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            animateElements();
+
+            // Add touch feedback for mobile
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    card.classList.add('active-touch');
+                });
+
+                card.addEventListener('touchend', () => {
+                    card.classList.remove('active-touch');
+                });
+            });
+        });
+
+        // Prevent zooming on double-tap
+        document.addEventListener('dblclick', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Improved touch handling
+        document.documentElement.style.touchAction = 'manipulation';
+    </script>
+</body>
+
+</html>
